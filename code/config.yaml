@@ -1,0 +1,46 @@
+paths:
+  daily_data: "../data/daily/"
+  minute_data: "../data/minute/"
+  output_dir: "../"
+
+splits:
+  train:
+    start_date: "2020-06-01"
+    end_date: "2024-03-31"
+  valid:
+    start_date: "2024-04-01"
+    end_date: "2025-04-30"
+  test:
+    start_date: "2025-05-01"
+    end_date: "2026-06-30"
+  
+  embargo_days: 5 
+
+target:
+  name: "overnight_return_pct"
+
+seed:
+  global: 42
+  numpy: 42
+
+model_weights:
+  path: "src/utils/model_weights/overnight_models.joblib"
+  reuse_existing: true
+
+backtest:
+  splits: ["test"]
+  min_conf_direction: 0.8
+  min_predicted_return_pct: 0.5
+  max_positions: 25
+  round_trip_cost_pct: 0.15
+  initial_capital: 1000000.0
+
+hyperparameters:
+  magnitude_model:
+    learning_rate: 0.05
+    n_estimators: 200
+    max_depth: 4
+  direction_model:
+    learning_rate: 0.01
+    n_estimators: 150
+    max_depth: 3
